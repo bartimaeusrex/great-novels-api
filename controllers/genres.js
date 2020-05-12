@@ -2,37 +2,37 @@ const models = require('../models')
 
 const getAllGenres = async (request, response) => {
   try {
-    const genres = await models.Genres.findAll({
-      attributes: ['id', 'name']
-    })
+    const allGenres = await models.Genres.findAll()
 
-    return response.send(genres)
+    return response.send(allGenres)
   } catch (error) {
-    return response.status(500).send('Unable to retrieve villain list, please try again.')
+    return response.status(500).send('Unable to retrieve genre list, please try again.')
   }
 }
 
-const getGenresById = async (request, response) => {
+const getGenreByIdWithNovelsAndAuthors = async (request, response) => {
   try {
     const { id } = request.params
 
     const genre = await models.Genres.findOne({
+      include: [{
+        include: [{
+          model: models.Authors
+        }],
+        model: models.Novels,
+      }],
       where: { id },
-      include: [
-        { model: models.Novels },
-        { model: models.Genres }
-      ]
     })
 
     return genre
       ? response.send(genre)
       : response.sendStatus(404)
   } catch (error) {
-    return response.status(500).send('Unable to retrieve villain, please try again.')
+    return response.status(500).send('Unable to retrieve genre, please try again.')
   }
 }
 
 module.exports = {
   getAllGenres,
-  getGenresById
+  getGenreByIdWithNovelsAndAuthors
 }

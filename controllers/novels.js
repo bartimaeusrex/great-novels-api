@@ -12,31 +12,29 @@ const getAllNovels = async (request, response) => {
 
     return response.send(novels)
   } catch (error) {
-    return response.status(500).send('Unable to retrieve villain list, please try again.')
+    return response.status(500).send('Unable to retrieve novel list, please try again.')
   }
 }
 
-const getNovelsById = async (request, response) => {
+const getNovelsByIdWithAuthorsAndGenres = async (request, response) => {
   try {
     const { id } = request.params
 
-    const novel = await models.Novels.findOne({
-      where: { id },
-      include: [
-        { model: models.Authors },
-        { model: models.Genres }
-      ]
+    const novel = await models.novels.findOne({
+      include: [{ model: models.authors, },
+        { model: models.genres, }],
+      where: { id }
     })
 
     return novel
       ? response.send(novel)
       : response.sendStatus(404)
   } catch (error) {
-    return response.status(500).send('Unable to retrieve villain, please try again.')
+    return response.status(500).send('Unable to retrieve novel, please try again.')
   }
 }
 
 module.exports = {
   getAllNovels,
-  getNovelsById
+  getNovelsByIdWithAuthorsAndGenres
 }
