@@ -3,17 +3,18 @@ const express = require('express')
 const { getAuthorById } = require('./controllers/authors')
 const { getGenresById } = require('./controllers/genres')
 const { getNovelsById } = require('./controllers/novels')
-const { getNovelGenresById } = require('./controllers/novelGenres')
+const { getNovelsGenresById } = require('./controllers/novelsGenres')
 
 const app = express()
 
 app.get('/authors/:id', getAuthorById)
 app.get('/genres/:id', getGenresById)
 app.get('/novels/:id', getNovelsById)
-app.get('/novelGenres/:id', getNovelGenresById)
+app.get('/novelGenres/:id', getNovelsGenresById)
 
 app.listen(8080, () => {
-console.log('Listening on port 8080....')
+  // eslint-disable-next-line no-console
+  console.log('Listening on port 8080....')
 })
 
 /*

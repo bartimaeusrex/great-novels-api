@@ -16,13 +16,14 @@ const connection = new Sequelize('great-novels', 'great-novels', 'novels;Theyrrr
 const Authors = AuthorsModel(connection, Sequelize)
 const Novels = NovelsModel(connection, Sequelize)
 const Genres = GenresModel(connection, Sequelize)
-const NovelsGenres = NovelsGenresModel(connection, Sequelize)
+const NovelsGenres = NovelsGenresModel(connection, Sequelize, Novels, Genres)
 
-Novels.hasMany(Genres)
-// Genres.hasMany(Novels) // novels to genre is many-to-many
-// Novels.hasMany(Genres) // which is why the novelsGenres!!
-NovelsGenres.belongsTo(Authors)
-Authors.hasMany(NovelsGenres)
+Authors.hasMany(Genres)
+Genres.belongsToMany(Novels, { through: NovelsGenres})
+Novels.belongsToMany(Genres, { through: NovelsGenres})
+
+// NovelsGenres.belongsTo(Authors)
+// Authors.hasMany(NovelsGenres)
 
 
 module.exports = {
