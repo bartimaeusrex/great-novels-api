@@ -2,24 +2,24 @@ const models = require('../models')
 
 const getAllAuthors = async (request, response) => {
   try {
-    const allAuthors = await models.Authors.findAll()
+    const authors = await models.Authors.findAll()
 
-    return response.send(allAuthors)
+    return response.send(authors)
   } catch (error) {
     return response.status(500).send('Unable to retrieve authors list, please try again.')
   }
 }
 
-const getAuthorByIdWithNovelsAndGenres = async (request, response) => {
+const getAuthorById = async (request, response) => {
   try {
     const { id } = request.params
 
     const author = await models.Authors.findOne({
       include: [{
-        include: [{ model: models.Genres }],
-        model: models.Novels
+        model: models.Novels,
+        include: [{ model: models.Genres }]
       }],
-      where: { id },
+      where: { id }
     })
 
     return author
@@ -32,5 +32,5 @@ const getAuthorByIdWithNovelsAndGenres = async (request, response) => {
 
 module.exports = {
   getAllAuthors,
-  getAuthorByIdWithNovelsAndGenres
+  getAuthorById
 }
