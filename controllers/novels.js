@@ -15,36 +15,21 @@ const getAllNovels = async (request, response) => {
   }
 }
 
-const getNovelsById = async (request, response) => {
+const getNovelsByIdentifier = async (request, response) => {
   try {
-    const { id } = request.params
+    const { identifier } = request.params
 
     const novel = await models.Novels.findOne({
       include: [
         { model: models.Authors, },
         { model: models.Genres, }
       ],
-      where: { id }
-    })
-
-    return novel
-      ? response.send(novel)
-      : response.sendStatus(404)
-  } catch (error) {
-    return response.status(500).send('Unable to retrieve novel, please try again.')
-  }
-}
-
-const getNovelsByTitle = async (request, response) => {
-  try {
-    const { id } = request.params
-
-    const novel = await models.Novels.findOne({
-      include: [
-        { model: models.Authors, },
-        { model: models.Genres, }
-      ],
-      where: { id }
+      where: {
+        [models.Op.or]: [
+          { id: identifier },
+          { title: { [models.Op.like]: `%${identifier.toLowerCase()}%` } }
+        ]
+      },
     })
 
     return novel
@@ -57,6 +42,5 @@ const getNovelsByTitle = async (request, response) => {
 
 module.exports = {
   getAllNovels,
-  getNovelsById,
-  getNovelsByTitle
+  getNovelsByIdentifier
 }
