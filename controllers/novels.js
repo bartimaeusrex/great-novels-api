@@ -27,7 +27,7 @@ const getNovelsByIdentifier = async (request, response) => {
       where: {
         [models.Op.or]: [
           { id: identifier },
-          { title: { [models.Op.like]: `%${identifier.toLowerCase()}%` } }
+          { title: { [models.Op.like]: `%${identifier}%` } }
         ]
       },
     })

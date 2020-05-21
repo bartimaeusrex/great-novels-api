@@ -18,7 +18,7 @@ const getAuthorByIdentifier = async (request, response) => {
       where: {
         [models.Op.or]: [
           { id: identifier },
-          { nameLast: { [models.Op.like]: `%${identifier.toLowerCase()}%` } }
+          { nameLast: { [models.Op.like]: `%${identifier}%` } }
         ]
       },
       include: [{

@@ -7,6 +7,27 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
+    await queryInterface.bulkInsert('genres', [
+      { name: "Adventure" },
+      { name: "African Literature" },
+      { name: "Crime" },
+      { name: "Drama" },
+      { name: "Dystopia" },
+      { name: "Fantasy" },
+      { name: "Fiction" },
+      { name: "French Literature" },
+      { name: "Gothic" },
+      { name: "Historical Fiction" },
+      { name: "Horror" },
+      { name: "Mystery" },
+      { name: "Plays" },
+      { name: "Russian Literature" },
+      { name: "Science Fiction" },
+      { name: "Thriller" },
+      { name: "Time Travel" },
+      { name: "War" }
+    ]),
+
     await queryInterface.bulkInsert('authors', [
       { nameFirst: 'Bram', nameLast: 'Stoker' },
       { nameFirst: 'Oscar', nameLast: 'Wilde' },
@@ -25,7 +46,7 @@ module.exports = {
       { nameFirst: 'Chinua', nameLast: 'Achebe' },
     ])
 
-    return queryInterface.bulkInsert('novels', [
+    await queryInterface.bulkInsert('novels', [
       { title: 'Dracula', authorId: 1 },
       { title: 'The Picture of Dorian Gray', authorId: 2 },
       { title: 'The Color Purple', authorId: 3 },
@@ -42,6 +63,57 @@ module.exports = {
       { title: 'The Time Machine', authorId: 14 },
       { title: 'Things Fall Apart', authorId: 15 },
     ])
+
+    return queryInterface.bulkInsert('novelsGenres', [
+      { novelId: 1, genreId: 6 },
+      { novelId: 1, genreId: 7 },
+      { novelId: 1, genreId: 11 },
+      { novelId: 2, genreId: 6 },
+      { novelId: 2, genreId: 7 },
+      { novelId: 2, genreId: 9 },
+      { novelId: 2, genreId: 11 },
+      { novelId: 3, genreId: 7 },
+      { novelId: 3, genreId: 10 },
+      { novelId: 4, genreId: 7 },
+      { novelId: 4, genreId: 10 },
+      { novelId: 4, genreId: 14 },
+      { novelId: 4, genreId: 18 },
+      { novelId: 5, genreId: 7 },
+      { novelId: 5, genreId: 10 },
+      { novelId: 6, genreId: 4 },
+      { novelId: 6, genreId: 7 },
+      { novelId: 6, genreId: 10 },
+      { novelId: 6, genreId: 13 },
+      { novelId: 7, genreId: 1 },
+      { novelId: 7, genreId: 7 },
+      { novelId: 7, genreId: 8 },
+      { novelId: 7, genreId: 10 },
+      { novelId: 8, genreId: 3 },
+      { novelId: 8, genreId: 7 },
+      { novelId: 8, genreId: 12 },
+      { novelId: 8, genreId: 16 },
+      { novelId: 9, genreId: 7 },
+      { novelId: 9, genreId: 11 },
+      { novelId: 9, genreId: 12 },
+      { novelId: 9, genreId: 15 },
+      { novelId: 10, genreId: 7 },
+      { novelId: 10, genreId: 12 },
+      { novelId: 10, genreId: 14 },
+      { novelId: 11, genreId: 7 },
+      { novelId: 11, genreId: 12 },
+      { novelId: 12, genreId: 5 },
+      { novelId: 12, genreId: 7 },
+      { novelId: 12, genreId: 15 },
+      { novelId: 13, genreId: 5 },
+      { novelId: 13, genreId: 7 },
+      { novelId: 13, genreId: 15 },
+      { novelId: 14, genreId: 7 },
+      { novelId: 14, genreId: 15 },
+      { novelId: 14, genreId: 17 },
+      { novelId: 15, genreId: 2 },
+      { novelId: 15, genreId: 7 },
+      { novelId: 15, genreId: 10 }
+    ]),
   },
 
   down: async (queryInterface) => {
@@ -52,8 +124,10 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    await queryInterface.bulkDelete('authors', [])
+    await queryInterface.bulkDelete('novelsGenres', [])
+    await queryInterface.bulkDelete('novels', [])
+    await queryInterface.bulkDelete('genres', [])
 
-    return queryInterface.bulkDelete('novels', [])
+    return queryInterface.bulkDelete('authors', [])
   }
 }
